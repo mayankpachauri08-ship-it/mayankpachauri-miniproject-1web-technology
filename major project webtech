@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>Online Quiz System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>QuizMaster</h1>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#about">About</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#result">Result</a>
+       
+
+    </nav>
+</header>
+
+<section class="hero" id="about">
+    <h2>Welcome to Online Quiz System</h2>
+    <p>Test your knowledge and improve your skills!</p>
+    <button onclick="startQuiz()">Start Quiz</button>
+</section>
+
+<main class="quiz-container" id="quiz">
+    <div class="quiz-header">
+        <h2>General Knowledge Quiz</h2>
+        <span id="timer">Time: 05:00</span>
+    </div>
+
+    <div class="progress">
+        <div id="progress-bar"></div>
+    </div>
+
+    <p id="question-number">Question 1</p>
+    <h3 id="question">Click Start Quiz to begin.</h3>
+
+    <div id="options"></div>
+
+    <div class="buttons">
+        <button id="prev-btn" onclick="previousQuestion()">
+            Previous
+        </button>
+        <button id="next-btn" onclick="nextQuestion()">
+            Next
+        </button>
+        <button id="submit-btn" onclick="submitQuiz()">
+            Submit Quiz
+        </button>
+        <button id="restart-btn" onclick="restartQuiz()">
+            Restart Quiz
+        </button>
+        
+        
+    </div>
+
+</body>
+</html>
+   
+    </div>
+
+    <div id="result"></div>
+</main>
+
+<footer>
+    <p>© 2026 QuizMaster | Online Quiz System</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
+<style>
+    
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f0f8f5;
+    color: #183b32;
+}
+
+header {
+    background: #087f5b;
+    color: white;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 27px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.hero {
+    text-align: center;
+    padding: 65px 20px;
+    background: linear-gradient(135deg, #087f5b, #20a779);
+    color: white;
+}
+
+.hero h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    margin-bottom: 25px;
+}
+
+button {
+    background: #f4c95d;
+    color: #183b32;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+}
+
+button:hover {
+    background: #e9b83d;
+}
+
+.quiz-container {
+    max-width: 700px;
+    margin: 35px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px #00000015;
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#timer {
+    color: #d94848;
+    font-weight: bold;
+}
+
+.progress {
+    background: #dcebe4;
+    height: 9px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+#progress-bar {
+    background: #087f5b;
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+#question-number {
+    color: #087f5b;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+#question {
+    margin-bottom: 20px;
+}
+
+.option {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #edf7f2;
+    margin: 12px 0;
+    padding: 15px;
+    border: 2px solid transparent;
+}
+
+.option.selected {
+    background: #c9f0dc;
+    border-color: #087f5b;
+}
+
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#result {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #cad9d5;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: lch(32.58% 31.18 163.69);
+    color: hsl(125, 92%, 5%);
+}
+
+@media(max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero h2 {
+        font-size: 24px;
+    }
+
+    .quiz-container {
+        margin: 20px 12px;
+        padding: 20px;
+    }
+
+    .quiz-header {
+        flex-direction: column;
+    }
+}
+
+</style>
+<script>
+    
+const questions = [
+    {
+        question: "What does HTML stand for?",
+        options: [
+            "Hyper Text Markup Language",
+            "High Text Machine Language",
+            "Hyper Tool Multi Language",
+            "Home Text Markup Language"
+        ],
+        answer: 0
+    },
+    {
+        question: "Which language is used for styling websites?",
+        options: ["Python", "CSS", "Java", "PHP"],
+        answer: 1
+    },
+    {
+        question: "Which language makes websites interactive?",
+        options: ["HTML", "CSS", "JavaScript", "SQL"],
+        answer: 2
+    },
+    {
+        question: "Which tag is used for a paragraph in HTML?",
+        options: ["<h1>", "<p>", "<div>", "<br>"],
+        answer: 1
+    },
+    {
+        question: "Which company developed JavaScript?",
+        options: ["Microsoft", "Google", "Netscape", "Apple"],
+        answer: 2
+    }
+];
+
+let currentQuestion = 0;
+let userAnswers = Array(questions.length).fill(null);
+let timeLeft = 300;
+let timerInterval = null;
+let quizStarted = false;
+let quizFinished = false;
+
+const questionElement = document.getElementById("question");
+const optionsElement = document.getElementById("options");
+const resultElement = document.getElementById("result");
+
+function startQuiz() {
+    if (quizStarted) return;
+
+    quizStarted = true;
+    quizFinished = false;
+    currentQuestion = 0;
+    timeLeft = 300;
+    userAnswers.fill(null);
+
+    resultElement.innerHTML = "";
+
+    document.getElementById("submit-btn").style.display = "inline-block";
+
+    showQuestion();
+    updateTimer();
+
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimer();
+
+        if (timeLeft <= 0) {
+            submitQuiz();
+        }
+    }, 1000);
+
+    document.getElementById("quiz").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function showQuestion() {
+    const q = questions[currentQuestion];
+
+    document.getElementById("question-number").textContent =
+        `Question ${currentQuestion + 1} of ${questions.length}`;
+
+    questionElement.textContent = q.question;
+
+    optionsElement.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+        const button = document.createElement("button");
+
+        button.className = "option";
+        button.textContent = option;
+
+        if (userAnswers[currentQuestion] === index) {
+            button.classList.add("selected");
+        }
+
+        button.onclick = () => selectAnswer(index);
+
+        optionsElement.appendChild(button);
+    });
+
+    document.getElementById("progress-bar").style.width =
+        `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+    document.getElementById("prev-btn").disabled =
+        currentQuestion === 0;
+
+    document.getElementById("next-btn").disabled =
+        currentQuestion === questions.length - 1;
+}
+
+function selectAnswer(index) {
+    if (quizFinished) return;
+
+    userAnswers[currentQuestion] = index;
+    showQuestion();
+}
+
+function nextQuestion() {
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
+    }
+}
+
+function previousQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
+    }
+}
+
+function updateTimer() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    document.getElementById("timer").textContent =
+        `Time: ${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+}
+
+function submitQuiz() {
+    if (!quizStarted || quizFinished) return;
+
+    quizFinished = true;
+    clearInterval(timerInterval);
+
+    let score = 0;
+
+    questions.forEach((q, index) => {
+        if (userAnswers[index] === q.answer) {
+            score++;
+        }
+    });
+
+    const percentage = (score / questions.length) * 100;
+
+    questionElement.textContent = "Quiz Completed!";
+    optionsElement.innerHTML = "";
+
+    document.getElementById("question-number").textContent =
+        "Your Final Result";
+
+    document.getElementById("prev-btn").disabled = true;
+    document.getElementById("next-btn").disabled = true;
+    document.getElementById("submit-btn").style.display = "none";
+
+    resultElement.innerHTML = `
+        <h2>Congratulations!</h2>
+        <p>Your Score: ${score} / ${questions.length}</p>
+        <p>Percentage: ${percentage}%</p>
+        <p>${percentage >= 40 ? "You Passed!" : "Better Luck Next Time!"}</p>
+        <button onclick="restartQuiz()">Restart Quiz</button>
+    `;
+
+    document.getElementById("progress-bar").style.width = "100%";
+}
+
+function restartQuiz() {
+    quizStarted = false;
+    quizFinished = false;
+
+    clearInterval(timerInterval);
+
+    resultElement.innerHTML = "";
+    questionElement.textContent = "Click Start Quiz to begin.";
+    optionsElement.innerHTML = "";
+
+    document.getElementById("question-number").textContent =
+        "Question 1";
+
+    document.getElementById("timer").textContent = "Time: 05:00";
+    document.getElementById("progress-bar").style.width = "0%";
+
+    document.getElementById("prev-btn").disabled = true;
+    document.getElementById("next-btn").disabled = true;
+    document.getElementById("submit-btn").style.display = "inline-block";
+
+    document.getElementById("quiz").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+document.getElementById("prev-btn").disabled = true;
+document.getElementById("next-btn").disabled = true;
+document.getElementById("submit-btn").style.display = "none";
+</script>
+CREATE DATABASE online_quiz;
+
+USE online_quiz;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('student','admin') DEFAULT 'student',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE questions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    question TEXT NOT NULL,
+    option_a VARCHAR(255) NOT NULL,
+    option_b VARCHAR(255) NOT NULL,
+    option_c VARCHAR(255) NOT NULL,
+    option_d VARCHAR(255) NOT NULL,
+    correct_answer CHAR(1) NOT NULL
+);
+
+CREATE TABLE results (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    score INT NOT NULL,
+    total_questions INT NOT NULL,
+    percentage DECIMAL(5,2),
+    attempted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+INSERT INTO questions
+(question, option_a, option_b, option_c, option_d, correct_answer)
+VALUES
+('What does HTML stand for?',
+'Hyper Text Markup Language',
+'High Text Machine Language',
+'Hyper Tool Multi Language',
+'Home Text Markup Language','A'),
+
+('Which language is used for styling websites?',
+'Python','CSS','Java','PHP','B'),
+
+('Which language makes websites interactive?',
+'HTML','CSS','JavaScript','SQL','C'),
+
+('Which tag is used for a paragraph?',
+'<h1>','<p>','<div>','<br>','B'),
+
+('Which language runs on a web server?',
+'PHP','CSS','HTML','XML','A');
+<?php
+require_once "config/db.php";
+
+$quiz_id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+
+if (!$quiz_id) {
+    die("Invalid quiz ID.");
+}
+
+$stmt = $pdo->prepare("SELECT * FROM quizzes WHERE id = ?");
+$stmt->execute([$quiz_id]);
+$quiz = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$quiz) {
+    die("Quiz not found.");
+}
+
+$stmt = $pdo->prepare(
+    "SELECT id, question, option_a, option_b, option_c, option_d
+     FROM questions WHERE quiz_id = ?"
+);
+$stmt->execute([$quiz_id]);
+$questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (!$questions) {
+    die("No questions are available for this quiz.");
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1><?= htmlspecialchars($quiz["title"]) ?></h1>
+
+    <form action="submit.php" method="POST" id="quizForm">
+        <input type="hidden" name="quiz_id"
+               value="<?= (int)$quiz_id ?>">
+
+        <?php foreach ($questions as $index => $q): ?>
+            <div class="question">
+                <h3>
+                    <?= ($index + 1) ?>.
+                    <?= htmlspecialchars($q["question"]) ?>
+                </h3>
+
+                <?php
+                $options = [
+                    "A" => $q["option_a"],
+                    "B" => $q["option_b"],
+                    "C" => $q["option_c"],
+                    "D" => $q["option_d"]
+                ];
+                ?>
+
+                <?php foreach ($options as $key => $option): ?>
+                    <label class="option">
+                        <input
+                            type="radio"
+                            name="answers[<?= (int)$q["id"] ?>]"
+                            value="<?= $key ?>"
+                        >
+                        <?= htmlspecialchars($option) ?>
+                    </label>
+                <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
+
+        <button type="submit" name="submit_quiz" class="btn">
+            Submit Quiz
+        </button>
+    </form>
+</div>
+
+</body>
+</html>
+
+<?php
+require_once "config/db.php";
+
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    header("Location: index.php");
+    exit;
+}
+
+$quiz_id = filter_input(INPUT_POST, "quiz_id", FILTER_VALIDATE_INT);
+$answers = $_POST["answers"] ?? [];
+
+if (!$quiz_id || !is_array($answers)) {
+    die("Invalid quiz submission.");
+}
+
+try {
+    // Check that the quiz exists
+    $stmt = $pdo->prepare(
+        "SELECT id FROM quizzes WHERE id = ?"
+    );
+    $stmt->execute([$quiz_id]);
+
+    if (!$stmt->fetch()) {
+        die("Quiz not found.");
+    }
+
+    // Get correct answers from database
+    $stmt = $pdo->prepare(
+        "SELECT id, correct_option
+         FROM questions
+         WHERE quiz_id = ?"
+    );
+    $stmt->execute([$quiz_id]);
+
+    $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (count($questions) === 0) {
+        die("No questions found.");
+    }
+
+    $score = 0;
+    $total = count($questions);
+
+    // Calculate score
+    foreach ($questions as $question) {
+        $question_id = $question["id"];
+
+        $selected = strtoupper(
+            trim((string)($answers[$question_id] ?? ""))
+        );
+
+        $correct = strtoupper(
+            trim((string)$question["correct_option"])
+        );
+
+        if (
+            in_array($selected, ["A", "B", "C", "D"], true)
+            && $selected === $correct
+        ) {
+            $score++;
+        }
+    }
+
+    // Save result in database
+    $stmt = $pdo->prepare(
+        "INSERT INTO results (quiz_id, score, total_questions)
+         VALUES (?, ?, ?)"
+    );
+
+    $stmt->execute([$quiz_id, $score, $total]);
+
+    $result_id = $pdo->lastInsertId();
+
+    // Open result page
+    header("Location: result.php?id=" . $result_id);
+    exit;
+
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo "Database error: " .
+         htmlspecialchars($e->getMessage());
+}
+?>
+
+<?php
+require_once "config/db.php";
+
+$result_id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+
+if (!$result_id) {
+    die("Invalid result ID.");
+}
+
+$stmt = $pdo->prepare(
+    "SELECT results.*, quizzes.title
+     FROM results
+     INNER JOIN quizzes
+     ON results.quiz_id = quizzes.id
+     WHERE results.id = ?"
+);
+
+$stmt->execute([$result_id]);
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$result) {
+    die("Result not found.");
+}
+
+$total = (int)$result["total_questions"];
+$score = (int)$result["score"];
+
+$percentage = $total > 0
+    ? round(($score / $total) * 100, 2)
+    : 0;
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container result">
+    <h1>Quiz Completed!</h1>
+
+    <h2><?= htmlspecialchars($result["title"]) ?></h2>
+
+    <h3>Your Score</h3>
+    <h1><?= $score ?> / <?= $total ?></h1>
+
+    <h2><?= $percentage ?>%</h2>
+
+    <p>
+        <?= $percentage >= 40
+            ? "Congratulations! You passed."
+            : "Keep practicing. Try again!" ?>
+    </p>
+
+    <a href="index.php" class="btn">Back to Home</a>
+</div>
+
+</body>
+</html>
+<Style>
+    
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+    position: relative;
+    z-index: 10;
+}
+
+.btn:hover {
+    background: #1e40af;
+}
+
+#quizForm {
+    display: block;
+}
+
+#quizForm button[type="submit"] {
+    pointer-events: auto;
+}
+
+
+
